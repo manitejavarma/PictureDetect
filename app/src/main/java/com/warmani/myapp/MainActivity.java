@@ -35,12 +35,14 @@ public class MainActivity extends ActionBarActivity {
 
     Thread thread;
 
+    Boolean t=true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +81,10 @@ public class MainActivity extends ActionBarActivity {
                             String age_value_r = null;
                             String smile_value_string=null;
                             final int age_value_r_int;
-                            boolean smile_value_int_bool;
+                            boolean smile_value_int_bool=false;
                             double smile_value_int;
                             final int age_value_int;
+                            System.out.println(face);
                             if (face == null) {
                                 Toast.makeText(MainActivity.this, "Picture not detected! Please use another one.", Toast.LENGTH_LONG).show();
                             } else {
@@ -101,15 +104,16 @@ public class MainActivity extends ActionBarActivity {
                                     smile_value_string="You don't seem to laugh as I do";
                                 }
                                 final String finalSmile_value_string = smile_value_string;
-
-                                MainActivity.this.runOnUiThread(new Runnable() {
-                                    public void run() {
-
-                                        Toast.makeText(MainActivity.this, "Hey " + finalSmile_value_string + " You age between  " + (age_value_int - age_value_r_int) + "and " + (age_value_int + age_value_r_int), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-
+                                if(smile_value_int_bool) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=F3EG4olrFjY&list=PLiHhCX0TvCttUhZ0wslA_iiz37Y1RtxTV"));
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=nOfGAMhA4GI&list=PLuYC9zQ9gzT2TAV83g79AROo1s-SaOa3W&index=3"));
+                                    startActivity(intent);
+                                }
                             }
+
 
 
                         } catch (FaceppParseException e) {
@@ -117,6 +121,7 @@ public class MainActivity extends ActionBarActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 });
                 }
@@ -132,6 +137,8 @@ public class MainActivity extends ActionBarActivity {
                 bmp= BitmapFactory.decodeFile(picturePath);
                 imageView.setImageBitmap(bmp);
 
+
+
                 thread.start();
 
 
@@ -144,10 +151,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
+
     @Override
     public void onResume(){
         super.onResume();
-        Log.i("MyTag", "onResume");
+            Log.i("MyTag", "true");
+            Log.i("MyTag", "onResume");
+            /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=cxLG2wtE7TM"));
+            startActivity(intent);*/
+
 
     }
     public void onPause(){
